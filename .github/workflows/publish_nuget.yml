@@ -1,0 +1,17 @@
+name: Publish NuGet Package
+
+on:
+  workflow_call:
+    inputs:
+      package_path:
+        required: true
+        type: string
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Publish to NuGet
+      env:
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+      run: dotnet nuget push ${{ inputs.package_path }} --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
